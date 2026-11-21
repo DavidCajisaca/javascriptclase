@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 4 - Lista de Tareas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .header a {
+            color: #ecf0f1;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #error {
+            color: #c0392b;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+        .completada {
+            text-decoration: line-through;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Lista de Tareas</h1>
+        <a href="index.html">Volver al inicio</a>
+    </div>
+
+    <div class="container">
+        <div class="input-group">
+            <input type="text" id="nueva-tarea" placeholder="Escribe una nueva tarea...">
+            <button onclick="agregarTarea()">Agregar tarea</button>
+        </div>
+        
+        <div id="error"></div>
+
+        <ul id="lista-tareas"></ul>
+    </div>
+
+    <script>
+        function agregarTarea() {
+            let input = document.getElementById('nueva-tarea');
+            let textoTarea = input.value;
+            let divError = document.getElementById('error');
+
+            divError.innerHTML = "";
+
+            if (textoTarea.trim() === "") {
+                divError.innerHTML = "Error: No se pueden agregar tareas vacias o con espacios en blanco.";
+                return;
+            }
+
+            let lista = document.getElementById('lista-tareas');
+
+            let li = document.createElement('li');
+            let checkbox = document.createElement('input');
+            checkbox.type = "checkbox";
+
+            let span = document.createElement('span');
+            span.textContent = textoTarea;
+
+            checkbox.onchange = function() {
+                if (checkbox.checked) {
+                    span.classList.add('completada');
+                } else {
+                    span.classList.remove('completada');
+                }
+            };
+
+            li.appendChild(checkbox);
+            li.appendChild(span);
+
+            lista.appendChild(li);
+
+            input.value = "";
+            input.focus();
+        }
+    </script>
+
+</body>
+</html>

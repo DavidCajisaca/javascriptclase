@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 3 - Analizador de Calificaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .header a {
+            color: #ecf0f1;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .resultados-box {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        p {
+            margin: 8px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .etiqueta {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Analizador de Calificaciones</h1>
+        <a href="index.html">Volver al inicio</a>
+    </div>
+
+    <div class="container">
+        <p><span class="etiqueta">Calificaciones actuales en el sistema:</span> <span id="lista-notas">8, 6, 9, 7, 5, 10, 4, 7</span></p>
+        
+        <button onclick="analizarCalificaciones()">Analizar</button>
+
+        <div class="resultados-box" id="resultados" style="display: none;">
+            <p><span class="etiqueta">Promedio:</span> <span id="res-promedio"></span></p>
+            <p><span class="etiqueta">Calificación más alta:</span> <span id="res-max"></span></p>
+            <p><span class="etiqueta">Calificación más baja:</span> <span id="res-min"></span></p>
+            <p><span class="etiqueta">Notas aprobadas (&ge; 7):</span> <span id="res-aprobadas"></span></p>
+            <p><span class="etiqueta">Notas no aprobadas (&lt; 7):</span> <span id="res-reprobadas"></span></p>
+        </div>
+    </div>
+
+    <script>
+        let calificaciones = [8, 6, 9, 7, 5, 10, 4, 7];
+
+        function analizarCalificaciones() {
+            if (calificaciones.length === 0) return;
+
+            let suma = 0;
+            let notaAlta = calificaciones[0]; 
+            let notaBaja = calificaciones[0]; 
+            let aprobadas = 0;
+            let noAprobadas = 0;
+            for (let i = 0; i < calificaciones.length; i++) {
+                let nota = calificaciones[i];
+                suma += nota;
+                if (nota > notaAlta) {
+                    notaAlta = nota;
+                }
+                if (nota < notaBaja) {
+                    notaBaja = nota;
+                }
+                if (nota >= 7) {
+                    aprobadas++;
+                } else {
+                    noAprobadas++;
+                }
+            }
+            let promedio = suma / calificaciones.length;
+            document.getElementById('res-promedio').textContent = promedio.toFixed(2);
+            document.getElementById('res-max').textContent = notaAlta;
+            document.getElementById('res-min').textContent = notaBaja;
+            document.getElementById('res-aprobadas').textContent = aprobadas;
+            document.getElementById('res-reprobadas').textContent = noAprobadas;
+
+            document.getElementById('resultados').style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

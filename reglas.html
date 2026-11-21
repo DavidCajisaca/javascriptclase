@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 2 - Verificador de Contraseña</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .header a {
+            color: #ecf0f1;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .regla {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+        .cumple {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .no-cumple {
+            color: #c0392b;
+            font-weight: bold;
+        }
+        #mensaje-final {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .exito {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Verificador de Contraseña</h1>
+        <a href="index.html">Volver al inicio</a>
+    </div>
+
+    <div class="container">
+        <label for="clave">Ingresa una contraseña de prueba:</label>
+        <input type="text" id="clave" placeholder="Ej. programa1">
+
+        <button onclick="verificarContrasena()">Verificar</button>
+
+        <div id="resultados-reglas" style="margin-top: 20px;"></div>
+        <div id="mensaje-final"></div>
+    </div>
+
+    <script>
+        function verificarContrasena() {
+            let clave = document.getElementById('clave').value;
+            let divResultados = document.getElementById('resultados-reglas');
+            let divMensajeFinal = document.getElementById('mensaje-final');
+
+            divResultados.innerHTML = "";
+            divMensajeFinal.innerHTML = "";
+            divMensajeFinal.className = "";
+
+            // 1. Regla: Al menos 8 caracteres
+            let reglaLongitud = clave.length >= 8;
+
+            // Variables de apoyo para recorridos con ciclo
+            let tieneDigito = false;
+            let tieneEspacio = false;
+
+            // Recorremos la cadena carácter por carácter sin usar expresiones regulares
+            for (let i = 0; i < clave.length; i++) {
+                let caracter = clave[i];
+
+                // Comprobar si es un número (dígito del '0' al '9')
+                if (caracter >= '0' && caracter <= '9') {
+                    tieneDigito = true;
+                }
+
+                // Comprobar si hay espacios en blanco
+                if (caracter === ' ') {
+                    tieneEspacio = true;
+                }
+            }
+
+            // 2. Regla: Al menos un dígito
+            let reglaDigito = tieneDigito;
+
+            // 3. Regla: Libre de espacios
+            let reglaSinEspacios = !tieneEspacio;
+
+            // Mostrar el estado de cada regla por separado
+            divResultados.innerHTML += `<p class="regla ${reglaLongitud ? 'cumple' : 'no-cumple'}">
+                ${reglaLongitud ? '✔' : '✖'} Mínimo 8 caracteres
+            </p>`;
+
+            divResultados.innerHTML += `<p class="regla ${reglaDigito ? 'cumple' : 'no-cumple'}">
+                ${reglaDigito ? '✔' : '✖'} Contiene al menos un dígito (0-9)
+            </p>`;
+
+            divResultados.innerHTML += `<p class="regla ${reglaSinEspacios ? 'cumple' : 'no-cumple'}">
+                ${reglaSinEspacios ? '✔' : '✖'} Libre de espacios
+            </p>`;
+
+            // Mensaje final solo si se cumplen las 3 condiciones
+            if (reglaLongitud && reglaDigito && reglaSinEspacios) {
+                divMensajeFinal.innerHTML = "Cumple todas las reglas";
+                divMensajeFinal.className = "exito";
+            }
+        }
+    </script>
+
+</body>
+</html>
